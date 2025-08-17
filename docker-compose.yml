@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  darwintd:
+    build: .
+    container_name: darwintd-dev
+    volumes:
+      # Mount source code for development
+      - .:/app
+      # Mount data directory for persistence
+      - darwintd-data:/app/data
+      # Mount cache directory for performance
+      - darwintd-cache:/app/cache
+      # Mount logs directory
+      - darwintd-logs:/app/logs
+    ports:
+      # Jupyter notebook
+      - "8888:8888"
+      # Future web interface
+      - "8000:8000"
+    environment:
+      # Development environment
+      - DEBUG=True
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app/src
+      # Database connection (to postgres service)
+      - DATABASE_URL=postgresql://darwintd:darwintd_pass@postgres:5432/darwintd
+      # Data directories
+      - DATA_DIR=/app/data
+      - CACHE_DIR=/app/cache
+    depends_on:
+      - postgres
+    networks:
+      - darwintd-network
+    # Keep container running for development
+    tty: true
+    stdin_open: true
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: darwintd-postgres
+    environment:
+      - POSTGRES_DB=darwintd
+      - POSTGRES_USER=darwintd
+      - POSTGRES_PASSWORD=darwintd_pass
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - darwintd-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: darwintd-redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - darwintd-network
+    # Optional: for caching and future real-time features
+
+  jupyter:
+    build: .
+    container_name: darwintd-jupyter
+    command: >
+      bash -c "pip install --user -e . && 
+               jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+    volumes:
+      - .:/app
+      - darwintd-data:/app/data
+      - darwintd-cache:/app/cache
+    ports:
+      - "8889:8888"  # Different port to avoid conflicts
+    environment:
+      - PYTHONPATH=/app/src
+      - DATABASE_URL=postgresql://darwintd:darwintd_pass@postgres:5432/darwintd
+    depends_on:
+      - postgres
+    networks:
+      - darwintd-network
+
+volumes:
+  darwintd-data:
+    driver: local
+  darwintd-cache:
+    driver: local
+  darwintd-logs:
+    driver: local
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  darwintd-network:
+    driver: bridge
