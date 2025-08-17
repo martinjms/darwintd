@@ -18,58 +18,186 @@ DarwinTD is an evolutionary trading system that uses genetic algorithms to devel
 
 ## Development Status
 
-This is a greenfield project in the planning/research phase. The codebase currently contains only project documentation and roadmap.
+**Current Phase**: Foundation and library research completed. Ready to begin implementation.
 
-## Planned Architecture
+**Completed**: 
+- Technology stack research and selection
+- Project structure and development environment setup
+- GitHub issues created for all implementation phases
 
-### Key Components (Not Yet Implemented)
-1. **Data Pipeline**: OHLCV data ingestion with validation dashboard
-2. **Technical Analysis Engine**: 
-   - Fibonacci calculations
-   - Support/resistance detection
-   - Volume Profile/POC analysis
-   - VWAP calculations
-3. **Evolutionary Algorithm**: Genetic algorithm for strategy optimization
-4. **Safety Systems**: Risk management and anomaly detection
-5. **Visualization System**: Trading charts and performance dashboards
+## Technology Stack (Final Decisions)
 
-### Recommended Technology Stack
-Based on the project README research:
+### **Core Architecture Decision: No Traditional Indicators**
+**Important**: This project focuses on **price action and volume patterns only**. We deliberately avoid traditional technical indicators (moving averages, RSI, MACD, etc.) in favor of pure price action analysis.
 
-**Core Libraries**:
-- pandas-ta + Jesse framework for comprehensive trading analysis
-- ccxt for cryptocurrency exchange integration
-- plotly/mplfinance for financial visualization
-- numpy/pandas for data manipulation
+### **Selected Technology Stack**
 
-**Alternative Options**:
-- TA-Lib for technical indicators
-- Backtrader or Zipline for backtesting
-- vectorbt for high-performance analysis
+#### **1. VectorBT - High-Performance Backtesting Engine**
+**Decision**: Use VectorBT as the primary backtesting framework instead of Jesse Framework or traditional libraries.
 
-## Development Workflow
+**Rationale**:
+- **Performance**: 10x+ faster than traditional backtesting for parameter optimization
+- **Evolutionary Algorithm Synergy**: Built for hyperparameter optimization and genetic algorithms
+- **Cost Effectiveness**: Faster optimization = lower cloud computing costs = higher net profitability
+- **Multi-Objective Optimization**: Native support for Pareto frontier evolution
+- **Parameter Grid Testing**: Can test thousands of parameter combinations simultaneously
 
-### Development Phases
-1. **Week 1**: Research, setup, testing framework, data pipeline
-2. **Week 2**: Price levels implementation with visual verification
-3. **Week 3**: Volume analysis with validation against TradingView
-4. **Week 4**: System integration and comprehensive testing
+**Trade-off**: Steeper learning curve, but essential for evolutionary trading system performance
 
-### Validation Strategy
-- Visual verification against TradingView for all calculations
-- Unit tests for mathematical accuracy
-- Manual validation interfaces for spot-checking
-- Interactive dashboards for data exploration
+#### **2. Custom Price Action Implementation**
+**Decision**: Build custom price action algorithms instead of using pandas-ta or TA-Lib.
 
-## Timeline
-- MVP target: 8-12 weeks
-- Full platform vision: 6-12 months
+**Rationale**:
+- **Alignment**: Traditional TA libraries are indicator-heavy, we need pure price action
+- **Performance**: Custom implementations optimized for our specific use case
+- **Transparency**: Full understanding of every calculation for genetic optimization
+- **Flexibility**: Easy to modify for evolutionary algorithm requirements
 
-## Future Development Notes
+**Core Components**:
+```python
+# What we build ourselves:
+- Fibonacci retracements/extensions calculation
+- Support/resistance level detection
+- Volume profile and Point of Control analysis
+- Swing point identification algorithms
+- Breakout detection logic
+```
 
-When implementing this system:
-1. Start with robust data validation and visualization before building trading logic
-2. Implement comprehensive testing for all mathematical calculations
-3. Build safety systems early in the development process
-4. Use paper trading extensively before any live trading implementation
-5. Focus on visual verification tools to validate technical analysis accuracy
+#### **3. CCXT - Exchange Integration**
+**Decision**: Use CCXT for all cryptocurrency exchange interactions.
+
+**Rationale**: Industry standard, supports 100+ exchanges, unified API, active maintenance.
+
+#### **4. plotly - Interactive Visualization**
+**Decision**: Use plotly for all charting and dashboard needs.
+
+**Rationale**: Interactive charts essential for strategy validation, real-time updates, web-based dashboards.
+
+#### **5. Supporting Libraries**
+- **numpy/pandas**: Core data manipulation
+- **scipy**: Advanced mathematical functions
+- **DEAP**: Genetic algorithm framework
+- **PostgreSQL/SQLite**: Data storage (SQLite for development, PostgreSQL for production)
+
+### **Architecture Philosophy**
+
+#### **Performance-First Design**
+Every component chosen for computational efficiency to support:
+- Real-time genetic algorithm optimization
+- Large-scale parameter space exploration
+- Multi-asset portfolio optimization
+- Continuous strategy evolution
+
+#### **Modular Evolution-Ready Design**
+```
+Data Pipeline → Price Action Analysis → Signal Generation → VectorBT Backtesting → Genetic Algorithm Optimization
+```
+
+Each component designed for:
+- Independent optimization and replacement
+- Genetic algorithm parameter evolution
+- Real-time adaptation to market conditions
+
+## Implementation Phases (GitHub Issues Created)
+
+### **Phase 1: VectorBT Foundation (4-6 weeks)**
+- **Issue #7**: VectorBT Core Integration and Setup
+- **Issue #8**: Data Infrastructure for VectorBT
+- **Goal**: Master VectorBT, establish high-performance backtesting pipeline
+
+### **Phase 2: Price Action Strategies (6-8 weeks)**  
+- **Issue #9**: Fibonacci Price Action Strategies
+- **Issue #10**: Support/Resistance and Volume Profile Strategies
+- **Goal**: Implement core price action algorithms with vectorized signal generation
+
+### **Phase 3: Evolution Engine (8-10 weeks)**
+- **Issue #11**: Advanced Genetic Algorithm Engine  
+- **Issue #12**: Strategy Ensemble and Meta-Evolution
+- **Goal**: Build sophisticated evolutionary optimization system
+
+### **Supporting Infrastructure**
+- **Issue #1**: Research and Choose Trading Libraries ✅ **COMPLETED**
+- **Issue #2**: Set Up Development Environment
+- **Issue #3**: Build Basic Visualization System
+- **Issue #4**: Create Unit Testing Framework
+- **Issue #5**: Create OHLCV Data Pipeline
+- **Issue #6**: Add Data Validation Dashboard
+
+## Development Principles
+
+### **1. Performance-First Implementation**
+- Every component optimized for genetic algorithm requirements
+- VectorBT's vectorized operations for massive parameter space exploration
+- Minimal computational overhead for real-time evolution
+
+### **2. Evolution-Ready Architecture**
+- All parameters designed for genetic optimization
+- Modular components that can be evolved independently
+- Clear fitness function definitions for every strategy component
+
+### **3. No Premature Optimization Philosophy**
+- Start with VectorBT (high-performance foundation)
+- Custom implementations only where needed
+- Learning curve investment pays off in long-term performance
+
+### **4. Validation Strategy**
+- Mathematical validation against manual calculations
+- Visual verification using plotly dashboards
+- Cross-validation across multiple market conditions
+- Out-of-sample testing for all evolved strategies
+
+## Timeline and Expectations
+
+**Total Development Time**: 18-24 weeks for complete system
+**Approach**: Build for the full version, not MVP
+**Rationale**: Computing cost vs profit optimization requires high-performance foundation from day one
+
+### **Phase Completion Criteria**
+- **Phase 1**: Can backtest 1000+ parameter combinations in <30 seconds
+- **Phase 2**: Price action strategies outperform random parameter selection
+- **Phase 3**: Genetic algorithm produces consistently improving strategy performance
+
+## Key Decision Rationale
+
+### **Why VectorBT Over Simpler Solutions?**
+1. **Cost-Benefit Analysis**: Higher cloud computing costs offset by significantly better strategy optimization
+2. **Scalability**: System designed to handle institutional-scale parameter optimization
+3. **Future-Proof**: No migration needed as system complexity grows
+4. **Research Quality**: Professional-grade backtesting for strategy validation
+
+### **Why Custom Price Action vs TA Libraries?**
+1. **Alignment**: Project specifically avoids traditional indicators
+2. **Optimization**: Genetic algorithms need transparent, modifiable calculations
+3. **Performance**: Custom implementations optimized for our specific use cases
+4. **Innovation**: Enables novel price action pattern discovery through evolution
+
+## Commands for Development
+
+### **Testing and Validation**
+```bash
+# Test library integration
+python test_library_integration.py
+
+# Run unit tests
+pytest tests/unit/
+
+# Run performance benchmarks  
+python scripts/benchmark_vectorbt.py
+
+# Validate price action calculations
+python scripts/validate_price_action.py
+```
+
+### **Development Workflow**
+```bash
+# Install dependencies
+pip install -e ".[dev,analysis]"
+
+# Run code quality checks
+black src/ tests/
+flake8 src/ tests/
+mypy src/
+
+# Start development server (when implemented)
+python -m darwintd.server
+```

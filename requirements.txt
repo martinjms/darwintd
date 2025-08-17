@@ -1,17 +1,25 @@
 # Core Data Processing
 pandas>=2.0.0
 numpy>=1.24.0
+scipy>=1.11.0
 
-# Technical Analysis
-pandas-ta>=0.3.14b0
-# TA-Lib>=0.4.25  # Optional, C dependencies required
+# High-Performance Backtesting (Primary)
+vectorbt>=0.25.0
+numba>=0.58.0  # VectorBT dependency for JIT compilation
+
+# Genetic Algorithms
+deap>=1.4.0
 
 # Exchange APIs
 ccxt>=4.0.0
 
 # Visualization
 plotly>=5.17.0
-matplotlib>=3.7.0
+
+# NO traditional TA libraries - we build custom price action algorithms
+# pandas-ta: Not needed (indicator-heavy, we focus on price action)
+# TA-Lib: Not needed (indicator-heavy, we focus on price action)
+# Jesse Framework: Not needed (VectorBT provides better performance)
 
 # Data Storage
 sqlalchemy>=2.0.0
