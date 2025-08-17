@@ -1,0 +1,51 @@
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Technical Analysis
+pandas-ta>=0.3.14b0
+# TA-Lib>=0.4.25  # Optional, C dependencies required
+
+# Exchange APIs
+ccxt>=4.0.0
+
+# Visualization
+plotly>=5.17.0
+matplotlib>=3.7.0
+
+# Data Storage
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0  # PostgreSQL adapter
+
+# Configuration Management
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# HTTP Requests
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# Development Tools
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+pre-commit>=3.4.0
+
+# Jupyter for analysis
+jupyter>=1.0.0
+ipykernel>=6.25.0
+
+# Optional: Jesse Framework (large dependency)
+# jesse>=1.0.0
+
+# Optional: Advanced backtesting
+# vectorbt>=0.25.0
+
+# Utilities
+click>=8.1.0  # CLI interface
+rich>=13.5.0  # Rich terminal output
+loguru>=0.7.0  # Better logging
