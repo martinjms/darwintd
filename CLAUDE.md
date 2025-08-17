@@ -98,22 +98,101 @@ Each component designed for:
 - Genetic algorithm parameter evolution
 - Real-time adaptation to market conditions
 
-## Implementation Phases (GitHub Issues Created)
+## Implementation Phases (GitHub Issues - REVISED ARCHITECTURE)
 
-### **Phase 1: VectorBT Foundation (4-6 weeks)**
-- **Issue #7**: VectorBT Core Integration and Setup
-- **Issue #8**: Data Infrastructure for VectorBT
-- **Goal**: Master VectorBT, establish high-performance backtesting pipeline
+### **Core Architecture: Setup Detection vs Trading Execution**
 
-### **Phase 2: Price Action Strategies (6-8 weeks)**  
-- **Issue #9**: Fibonacci Price Action Strategies
-- **Issue #10**: Support/Resistance and Volume Profile Strategies
-- **Goal**: Implement core price action algorithms with vectorized signal generation
+**Philosophy**: Separate pattern recognition from trade execution, mirroring how professional traders work:
+1. **"I see a setup"** (pattern detection)
+2. **"This looks good"** (quality assessment)  
+3. **"How should I trade this?"** (execution optimization)
 
-### **Phase 3: Evolution Engine (8-10 weeks)**
-- **Issue #11**: Advanced Genetic Algorithm Engine  
-- **Issue #12**: Strategy Ensemble and Meta-Evolution
-- **Goal**: Build sophisticated evolutionary optimization system
+### **Phase 1: Setup Detection Engine (4-6 weeks)**
+- **Issue #7**: VectorBT Core Integration ✅ **COMPLETED**
+- **Issue #13**: Fibonacci Setup Detection Engine
+- **Issue #14**: Support/Resistance Level Detection
+- **Issue #15**: Volume Profile and POC Analysis
+- **Issue #16**: Multi-Timeframe Confluence Analysis
+- **Goal**: Detect high-probability trading setups with quality scoring
+
+### **Phase 2: Setup Management System (3-4 weeks)**
+- **Issue #17**: Setup Database and Storage System
+- **Issue #18**: Setup Visualization and Review Interface
+- **Issue #19**: Setup Quality Scoring and Filtering
+- **Goal**: Store, review, and validate detected setups
+
+### **Phase 3: Trading Execution Optimization (4-5 weeks)**
+- **Issue #20**: Setup Trading Execution Engine
+- **Issue #21**: Entry/Exit Timing Optimization
+- **Issue #22**: Scalping-to-Swing Trading Logic
+- **Goal**: Optimize how to trade validated setups
+
+### **Phase 4: Evolutionary Optimization (6-8 weeks)**
+- **Issue #11**: Advanced Genetic Algorithm Engine (adapted)
+- **Issue #23**: Setup Detection Parameter Evolution
+- **Issue #24**: Trading Execution Parameter Evolution
+- **Goal**: Evolve both setup detection and trading execution
+
+## New Architecture Details
+
+### **Setup Detection Workflow**
+```
+OHLCV Data → Level Detection → Setup Pattern Recognition → Quality Scoring → Setup Database
+```
+
+**Example: Fibonacci Setup Detection**
+1. **Swing Point Detection**: Find significant highs/lows
+2. **Fibonacci Level Calculation**: Calculate retracement/extension levels
+3. **Setup Trigger**: Price approaches a Fibonacci level (within tolerance)
+4. **Confluence Analysis**: Check for additional supporting levels
+5. **Quality Scoring**: Rate setup based on confluences and market context
+
+### **Setup Data Structure**
+```python
+@dataclass
+class TradingSetup:
+    timestamp: datetime           # When setup was detected
+    symbol: str                  # Asset symbol
+    setup_type: str              # 'fib_retracement', 'support_break', etc.
+    quality_score: float         # 0.0 to 10.0 
+    confluences: List[str]       # ['fib_618', 'weekly_support', 'volume_poc']
+    price_at_detection: float    # Price when setup detected
+    relevant_levels: Dict        # Key price levels for this setup
+    market_context: Dict         # Trend, volume, volatility context
+    chart_window: pd.DataFrame   # OHLCV data for visualization
+```
+
+### **Trading Execution Workflow**
+```
+Setup Detection → Entry Timing → Position Management → Exit Strategy → Performance Attribution
+```
+
+**Trading Parameters to Optimize:**
+- Entry timing (immediate, confirmation wait, scale-in)
+- Entry precision (distance from setup trigger)
+- Position sizing (within 1% risk limit)
+- Stop loss placement
+- Take profit targets (multiple levels)
+- Scalping-to-swing conversion logic
+- Maximum hold time
+
+### **Confluence System**
+Multiple detection methods that can reinforce each other:
+- **Fibonacci Levels**: 23.6%, 38.2%, 50%, 61.8%, 78.6%
+- **Support/Resistance**: Historical price levels
+- **Volume Levels**: Point of Control, Value Area
+- **Weekly/Monthly Levels**: Higher timeframe pivots
+- **Round Numbers**: Psychological levels
+
+**Quality Scoring**: More confluences = higher setup quality
+
+### **Visual Review System**
+Generate chart interface showing:
+- Detected setup location
+- All relevant levels and confluences
+- Market context (volume, trend)
+- Setup quality score
+- Quick navigation through setup list
 
 ### **Supporting Infrastructure**
 - **Issue #1**: Research and Choose Trading Libraries ✅ **COMPLETED**
